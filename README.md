@@ -13,6 +13,9 @@ jobs:
   choose-assignee:
     # Choose assignee if the issue has "bug" label and no assignees.
     if: ${{ github.event.label.name == 'bug' && toJSON(github.event.issue.assignees) == '[]' }}
+    permissions:
+      # Need issues.write to add assignee
+      issues: write
     env:
       PAGERDUTY_API_KEY: ${{ secrets.PAGERDUTY_API_KEY }}
       # Use --pagerduty-schedule-id option to use multiple schedules
