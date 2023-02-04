@@ -1,0 +1,12 @@
+query ListMembersQuery($owner: String!, $team_slug: String!) {
+  organization(login: $owner) {
+    team(slug: $team_slug) {
+      members(first: 100) {
+        nodes {
+          login
+          email
+        }
+      }
+    }
+  }
+}
