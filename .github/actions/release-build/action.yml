@@ -22,6 +22,7 @@ runs:
     - shell: bash
       run: cargo build --release --target ${{ inputs.target }}
     - id: finalize
+      shell: bash
       run: |
         bin=pd-assignee-${{ github.ref }}-${{ inputs.target }}
         mv target/${{ inputs.target }}/release/pd-assignee $bin
