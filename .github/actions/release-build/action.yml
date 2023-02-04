@@ -3,6 +3,8 @@ name: Release build
 inputs:
   target:
     required: true
+  github_token:
+    required: true
 
 outputs:
   sha256sum:
@@ -23,9 +25,10 @@ runs:
       run: cargo build --release --target ${{ inputs.target }}
     - id: finalize
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
       run: |
         bin=pd-assignee-${{ github.ref_name }}-${{ inputs.target }}
-        ls -l
-        ls -l target
         mv target/${{ inputs.target }}/release/pd-assignee $bin
         echo sha256sum=$(sha256sum $bin) >> $GITHUB_OUTPUT
+        gh release upload ${{ github.ref_name }} $bin
