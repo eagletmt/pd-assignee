@@ -17,7 +17,7 @@ jobs:
         with:
           targets: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
-      - if: '!startsWith(matrix.target, "x86_64-")'
+      - if: "!startsWith(matrix.target, 'x86_64-')"
         uses: taiki-e/setup-cross-toolchain-action@v1
         with:
           target: ${{ matrix.target }}
