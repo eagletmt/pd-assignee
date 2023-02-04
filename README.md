@@ -19,6 +19,7 @@ jobs:
       PAGERDUTY_SCHEDULE_ID: P012345
       # Set GITHUB_ENDPOINT if you're using GitHub Enterprise Server
       # GITHUB_ENDPOINT: https://ghes.example.com/api/graphql
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GITHUB_ORG: my-org
       GITHUB_TEAM_SLUG: my-team
       DEFAULT_ASSIGNEE: eagletmt@gmail.com
