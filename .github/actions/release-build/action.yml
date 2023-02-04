@@ -1,0 +1,28 @@
+name: Release build
+
+inputs:
+  target:
+    required: true
+
+outputs:
+  sha256sum:
+    value: ${{ steps.finalize.outputs.sha256sum }}
+
+runs:
+  using: composite
+  steps:
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ inputs.target }}
+    - uses: Swatinem/rust-cache@v2
+    - if: "!startsWith(inputs.target, 'x86_64-')"
+      uses: taiki-e/setup-cross-toolchain-action@v1
+      with:
+        target: ${{ inputs.target }}
+    - shell: bash
+      run: cargo build --release --target ${{ inputs.target }}
+    - id: finalize
+      run: |
+        bin=pd-assignee-${{ github.ref }}-${{ inputs.target }}
+        mv target/${{ inputs.target }}/release/pd-assignee $bin
+        echo sha256sum=$(sha256sum $bin) >> $GITHUB_OUTPUT
