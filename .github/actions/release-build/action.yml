@@ -24,6 +24,8 @@ runs:
     - id: finalize
       shell: bash
       run: |
-        bin=pd-assignee-${{ github.ref }}-${{ inputs.target }}
+        bin=pd-assignee-${{ github.ref_name }}-${{ inputs.target }}
+        ls -l
+        ls -l target
         mv target/${{ inputs.target }}/release/pd-assignee $bin
         echo sha256sum=$(sha256sum $bin) >> $GITHUB_OUTPUT
