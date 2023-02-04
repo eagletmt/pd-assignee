@@ -9,7 +9,7 @@ jobs:
     steps:
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create ${{ github.ref_name }}
+        run: gh release create ${{ github.ref_name }} --repo ${{ github.repository }}
 
   build-aarch64:
     runs-on: ubuntu-latest
@@ -46,4 +46,4 @@ jobs:
         run: |
           echo ${{ needs.build-aarch64.outputs.sha256sum }} >> SHA256SUMS.txt
           echo ${{ needs.build-x86_64.outputs.sha256sum }} >> SHA256SUMS.txt
-          gh release upload ${{ github.ref_name }} SHA256SUMS.txt
+          gh release upload ${{ github.ref_name }} SHA256SUMS.txt --repo ${{ github.repository }}
