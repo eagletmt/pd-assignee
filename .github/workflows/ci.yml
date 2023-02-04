@@ -7,11 +7,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - run: apt update && apt install -y gcc-12-aarch64-linux-gnu
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu
       - uses: Swatinem/rust-cache@v2
-      - run: |
-          cargo build --release --target aarch64-unknown-linux-gnu
-          cargo build --release --target x86_64-unknown-linux-gnu
+      - env:
+          CARGO_ENCODED_RUSTFLAGS: -Clink-args=--target=aarch64-unknown-linux-gnu --sysroot=/usr/aarch64-linux-gnu -fuse-ld=lld
+        run: cargo build --release --target aarch64-unknown-linux-gnu
+      - env:
+          CARGO_ENCODED_RUSTFLAGS: -Clink-args=-fuse-ld=lld
+        run: cargo build --release --target x86_64-unknown-linux-gnu
