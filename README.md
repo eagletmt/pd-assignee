@@ -25,7 +25,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GITHUB_ORG: my-org
       GITHUB_TEAM_SLUG: my-team
-      DEFAULT_ASSIGNEE: eagletmt@gmail.com
+      DEFAULT_ASSIGNEE: eagletmt
     steps:
       - id: pd-assignee
         run: pd-assignee >> $GITHUB_OUTPUT

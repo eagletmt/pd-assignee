@@ -69,10 +69,7 @@ async fn main() -> anyhow::Result<()> {
         }
     }
 
-    let Some(assignee) = assignee.or_else(|| {
-        args.default_assignee
-            .and_then(|email| team_members.remove(&email))
-    }) else {
+    let Some(assignee) = assignee.or(args.default_assignee) else {
         anyhow::bail!("Cannot find assignee");
     };
     println!("assignee={assignee}");
