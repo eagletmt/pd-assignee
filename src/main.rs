@@ -1,26 +1,36 @@
 use clap::Parser as _;
 use graphql_client::GraphQLQuery as _;
 
+/// Choose GitHub assignee from PagerDuty schedule
 #[derive(Debug, clap::Parser)]
 struct Args {
+    /// PagerDuty REST API v2 endpoint
     #[arg(long, env, default_value = "https://api.pagerduty.com")]
     pagerduty_endpoint: reqwest::Url,
+    /// PagerDuty (read-only) API token
     #[arg(long, env, hide_env_values = true)]
     pagerduty_api_key: String,
+    /// PagerDuty schedule ID
     #[arg(short = 's', long, env)]
     pagerduty_schedule_id: Vec<String>,
 
+    /// GitHub access token
     #[arg(long, env, hide_env_values = true)]
     github_token: String,
+    /// GitHub GraphQL API endpoint
     #[arg(long, env, default_value = "https://api.github.com/graphql")]
     github_endpoint: String,
+    /// GitHub organization name
     #[arg(short = 'o', long, env)]
     github_org: String,
+    /// GitHub team name
     #[arg(short = 't', long, env)]
     github_team_slug: String,
 
+    /// The time to use when getting the PagerDuty schedule (default: current time)
     #[arg(long)]
     at: Option<chrono::DateTime<chrono::Utc>>,
+    /// GitHub login name of the default assignee
     #[arg(long, env)]
     default_assignee: Option<String>,
 }
