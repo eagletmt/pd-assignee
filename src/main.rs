@@ -123,19 +123,21 @@ async fn list_github_members(
     if let Some(errors) = resp.errors {
         anyhow::bail!("ListMembersQuery failed: {:?}", errors);
     }
-    let Some(nodes) = resp.data
+    if let Some(nodes) = resp
+        .data
         .and_then(|data| data.organization)
         .and_then(|org| org.team)
         .and_then(|team| team.members.nodes)
-    else {
-        anyhow::bail!("ListMembersQuery returned empty data");
-    };
-    Ok(std::collections::HashMap::from_iter(
-        nodes
-            .into_iter()
-            .flatten()
-            .map(|node| (node.email, node.login)),
-    ))
+    {
+        Ok(std::collections::HashMap::from_iter(
+            nodes
+                .into_iter()
+                .flatten()
+                .map(|node| (node.email, node.login)),
+        ))
+    } else {
+        Ok(std::collections::HashMap::new())
+    }
 }
 
 fn build_pagerduty_client(api_key: &str) -> anyhow::Result<reqwest::Client> {
